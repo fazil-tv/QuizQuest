@@ -9,7 +9,6 @@ import useQuiz from "./store";
 export default function Home() {
 
   const quizConfig = useQuiz((state) => state.config)
-
   console.log(quizConfig,"oooops")
 
   return (

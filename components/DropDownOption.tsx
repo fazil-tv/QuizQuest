@@ -1,4 +1,5 @@
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
 
 import {
     DropdownMenu,
@@ -8,11 +9,53 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import useQuiz from '@/app/store';
+
+
+
+type Categorytype ={
+    name:string;
+    id:number
+}
+
+const type = ["boolean","multiple"]
+const level = ["easy","medium","hard"]
+
 
 
 
 
 function DropDownOption() {
+
+    const [categorys,setcategorys] = useState<Categorytype[]>([])
+    const addCategory = useQuiz(state => state.addCategory);
+
+    useEffect(()=>{
+        async function fetchcategory() {
+          const response = await fetch("https://opentdb.com/api_category.php");
+          const data = await response.json();
+          const { trivia_categories } = data;
+          console.log(trivia_categories, "tri");
+          
+            setcategorys([...trivia_categories])
+
+            console.log(trivia_categories,"[[[[[")
+        }
+
+      
+
+        fetchcategory()
+    },[])
+
+
+    
+
+
+
+
+
+
+
     return (
         
         <section className='flex justify-evenly items-center py-5 w-full'>
@@ -22,10 +65,8 @@ function DropDownOption() {
             <DropdownMenuContent>
               <DropdownMenuLabel>Select Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              {categorys.map(category=>  <DropdownMenuItem key={category.name} onClick={()=>addCategory(category.id,category.name)}>{category.name}</DropdownMenuItem>
+)}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -35,10 +76,8 @@ function DropDownOption() {
             <DropdownMenuContent>
               <DropdownMenuLabel>Select level</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+            {level.map(e=>              <DropdownMenuItem key={e}>{e}</DropdownMenuItem>
+)}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -48,10 +87,9 @@ function DropDownOption() {
             <DropdownMenuContent>
               <DropdownMenuLabel>Select Type</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              
+              {type.map(e=>              <DropdownMenuItem key={e}>{e}</DropdownMenuItem>
+)}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
