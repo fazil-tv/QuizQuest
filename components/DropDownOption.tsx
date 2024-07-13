@@ -10,6 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import useQuiz from '@/app/store';
+import { ChevronDown } from 'lucide-react';
 
 
 
@@ -21,14 +22,16 @@ type Categorytype ={
 const type = ["boolean","multiple"]
 const level = ["easy","medium","hard"]
 
-
-
-
-
 function DropDownOption() {
 
     const [categorys,setcategorys] = useState<Categorytype[]>([])
-    const addCategory = useQuiz(state => state.addCategory);
+    const addCategory = useQuiz(state => state.addCategory); 
+    const config = useQuiz(state => state.config); 
+
+
+    const addLevel  = useQuiz(state => state.addLevel);
+    const addType = useQuiz(state=>state.addType);
+ 
 
     useEffect(()=>{
         async function fetchcategory() {
@@ -38,8 +41,6 @@ function DropDownOption() {
           console.log(trivia_categories, "tri");
           
             setcategorys([...trivia_categories])
-
-            console.log(trivia_categories,"[[[[[")
         }
 
       
@@ -61,7 +62,8 @@ function DropDownOption() {
         <section className='flex justify-evenly items-center py-5 w-full'>
         <div className='px-0 py-4 w-1/3 mx-4'>
           <DropdownMenu >
-            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>SELECT CATEGORY</DropdownMenuTrigger>
+            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>{config.category.name?config.category.name:"CATEGORY"}<ChevronDown/></DropdownMenuTrigger>
+
             <DropdownMenuContent>
               <DropdownMenuLabel>Select Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -72,23 +74,23 @@ function DropDownOption() {
         </div>
         <div className='px-7 py-4 w-1/3 mx-4'>
           <DropdownMenu >
-            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>SELECT LEVEL</DropdownMenuTrigger>
+            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>{config.level?config.level:"LEVEL"}<ChevronDown/></DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Select level</DropdownMenuLabel>
               <DropdownMenuSeparator />
-            {level.map(e=>              <DropdownMenuItem key={e}>{e}</DropdownMenuItem>
+            {level.map(e=>              <DropdownMenuItem key={e} onClick={()=>addLevel(e)}>{e}</DropdownMenuItem>
 )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
         <div className='px-7 py-4 w-1/3 mx-4'>
           <DropdownMenu>
-            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>SELECT TYPE</DropdownMenuTrigger>
+            <DropdownMenuTrigger className='flex outline-none justify-between w-full shadow-md p-5 rounded-lg'>{config.type?config.type:"TYPE"}<ChevronDown/></DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Select Type</DropdownMenuLabel>
               <DropdownMenuSeparator />
               
-              {type.map(e=>              <DropdownMenuItem key={e}>{e}</DropdownMenuItem>
+              {type.map(e=>              <DropdownMenuItem key={e} onClick={()=>addType(e)}>{e}</DropdownMenuItem>
 )}
             </DropdownMenuContent>
           </DropdownMenu>
