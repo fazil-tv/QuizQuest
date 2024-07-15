@@ -59,11 +59,23 @@
     }
   }
 
-  @layer base {
+  /* @layer base {
     * {
       @apply border-border;
     }
     body {
       @apply bg-background text-foreground;
     }
+  } */
+
+
+  body{
+    background-color: #0d3d8d;
+background-image: linear-gradient(138deg, #08224e 0%, #000000 100%);
+background-color: #000000;
+background-repeat: no-repeat;
+background-size: cover;
+height: 100vh; 
+margin: 0;
+
   }

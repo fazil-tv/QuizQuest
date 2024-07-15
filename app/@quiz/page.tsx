@@ -5,6 +5,7 @@ import useQuiz from "../store";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton"
 import { Player } from '@lottiefiles/react-lottie-player';
+import "./style.css"
 
 
 export default function Quiz() {
@@ -45,7 +46,6 @@ export default function Quiz() {
         });
 
 
-
         console.log(shuffledResults, "shuffled");
         setQuestions([...shuffledResults]);
         setLoading(false);
@@ -60,7 +60,7 @@ export default function Quiz() {
 
   const handleNext = () => {
     let remainingQuestions = [...questions];
-remainingQuestions.shift();
+    remainingQuestions.shift();
 
     setQuestions([...remainingQuestions]);
     setAnswer("")
@@ -80,10 +80,6 @@ remainingQuestions.shift();
   return (
     <>
       <Header />
-
-
-
-
       {questions.length && !loading && (
         <div className="max-w-screen-xl flex-wrap items-center mx-auto p-4 pb-0 flex justify-center mt-10">
           <h1 className="mb-4 mt-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-3xl">
@@ -100,10 +96,6 @@ remainingQuestions.shift();
             </span>
           </h1>
         ) : null}
-
-        {!loading && questions.length > 0 && (
-          <p>Score: {config.score}</p>
-        )}
       </div>
 
 
@@ -112,7 +104,7 @@ remainingQuestions.shift();
 
           {questions.length > 0 && (
             <>
-              <h2 className="text-xl font-bold mb-5 pt-3 pb-5">{questions[0].question}</h2>
+              <h2 className="text-xl font-bold mb-5 pt-3 pb-5 text-white">{questions[0].question}</h2>
 
               <div className="grid grid-cols-2 gap-4">
                 {questions[0].answers.map((Answer, index) => (
@@ -146,7 +138,7 @@ remainingQuestions.shift();
           )}
 
 
-          {!questions.length && loading &&  (
+          {!questions.length && loading && (
             <div className="w-full">
               <Skeleton className="h-[30px] mt-3 rounded-full w-full" />
               <Skeleton className="h-[30px] mt-3 rounded-full w-full" />
@@ -166,7 +158,7 @@ remainingQuestions.shift();
                 style={{ height: "400px", width: "400px" }}
               />
               <h1 className="mt-10 text-center font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-                YOUR SCORE {"  "}
+                YOUR SCORE {" "}
                 <span className="font-extrabold text-transparent text-10xl bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
                   {config.score}
                 </span>
