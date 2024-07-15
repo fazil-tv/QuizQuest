@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import useQuiz from '@/app/store';
 import { ChevronDown } from 'lucide-react';
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 
 
@@ -27,6 +29,7 @@ function DropDownOption() {
     const [categorys,setcategorys] = useState<Categorytype[]>([])
     const addCategory = useQuiz(state => state.addCategory); 
     const config = useQuiz(state => state.config); 
+    let [loading,setLoading] =useState(false)
 
 
     const addLevel  = useQuiz(state => state.addLevel);
@@ -34,13 +37,17 @@ function DropDownOption() {
  
 
     useEffect(()=>{
+      setLoading(false)
         async function fetchcategory() {
           const response = await fetch("https://opentdb.com/api_category.php");
           const data = await response.json();
           const { trivia_categories } = data;
           console.log(trivia_categories, "tri");
+
           
             setcategorys([...trivia_categories])
+
+            setLoading(false)
         }
 
       
@@ -67,7 +74,8 @@ function DropDownOption() {
             <DropdownMenuContent>
               <DropdownMenuLabel>Select Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {categorys.map(category=>  <DropdownMenuItem key={category.name} onClick={()=>addCategory(category.id,category.name)}>{category.name}</DropdownMenuItem>
+              {categorys.map(category=>  <DropdownMenuItem key={category.name} onClick={()=>addCategory(category.id,category.name)}>{!loading?category.name:              <Skeleton className="h-[30px] rounded-full w-full" />
+   }</DropdownMenuItem>
 )}
             </DropdownMenuContent>
           </DropdownMenu>
